@@ -1,0 +1,12 @@
+.bi  {
+    cursor: pointer;
+    color: #1c3b84;
+    padding: 1px 10px;
+    background-color: aliceblue;
+}
+
+.bi:hover {
+    background-color:#1c3b84 ;
+    color: #ffffff;
+    border-radius: 50%;
+}

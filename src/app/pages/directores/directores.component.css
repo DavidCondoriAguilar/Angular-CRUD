@@ -1,0 +1,6 @@
+.bi {
+    cursor: pointer;
+}
+.bi:hover{
+    color: var(--color5);
+}

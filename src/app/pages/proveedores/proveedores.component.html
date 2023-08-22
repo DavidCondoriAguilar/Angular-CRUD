@@ -1,0 +1,47 @@
+<!-- eslint-disable @angular-eslint/template/label-has-associated-control -->
+<header id="page-header">
+    <div class="container">
+    <h1>
+    Proveedores
+    </h1>
+    </div>
+    </header>
+    
+    <section class="paddi">
+    <div class="container">
+    <div class="mb-3">
+    <label class="form-label">Buscar empresa</label>
+    <input type="text" class="form-control" [(ngModel)]="listaProveedores" name="filterPost">
+    </div>
+    
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <th>Empresa</th>
+                    <th>Contacto
+                    <th>Cargo</th>
+                    <th>Ciudad</th>
+                    <th>País</th>
+                    <th>Teléfono</th>
+                </thead>
+                <tbody>
+                    <!-- PIPI= TUBERIA DONDE PASA LA DATA ,  DA VENTAJA DE MUTAR O CAMBIAR LA DATA SO AL UTILIZAR PIPE /(FILTER, MAP, TAB, MERCH)  -->
+                    <tr
+                        *ngFor="let item of listaProveedores | paginate: { itemsPerPage: 5, currentPage: p }">
+                        <td>{{ item.nombreempresa}}</td>
+                        <td>{{ item.nombrecontacto}}</td>
+                        <td>{{ item.cargocontacto}}</td>
+                        <td>{{ item.pais}}</td>
+                        <td>{{ item.ciudad}}</td>
+                        <td>{{ item.telefono}}</td>
+                    </tr>
+                </tbody>
+            </table>
+    
+            <pagination-controls (pageChange)="p = $event" previousLabel="Anterior"
+                nextLabel="Siguiente"></pagination-controls>
+    
+        </div>
+    
+    </div>
+    </section>

@@ -1,0 +1,20 @@
+
+
+<section class="paddi">
+    <div class="container">
+        <div class="row row-cols-1 row-cols-xl-5 row-cols-lg-4 row-cols-md-3 row-cols-sm-2  g-4">
+
+            <div class="col " *ngFor="let item of listaProducto">
+                <div class="card h-100">
+                    <img src="https://servicios.campus.pe/{{item.imagenchica}} " class="card-img-top" alt="Empleados">
+                    <div class="card-body">
+                        <h5 class="card-title">{{item.nombre}} <i class="bi bi-eye"></i></h5>
+                        <p class="card-text">S/ {{item.precio | number: '.2'}} 
+                            <i class="bi bi-bag-heart" (click)="agregarCarrito(item)"></i></p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>

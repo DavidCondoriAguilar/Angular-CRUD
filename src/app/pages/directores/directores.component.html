@@ -1,0 +1,137 @@
+<header id="page-header">
+    <div class="container">
+        <h1>
+            Directores
+        </h1>
+    </div>
+</header>
+
+<section class="paddi">
+    <div class="container">
+        <div class="mb-3">
+            <!-- <label class="form-label">Buscar Director</label> -->
+            <input type="text" class="form-control" [(ngModel)]="listaDirectores" name="filterPost">
+        </div>
+
+        <div class="table-responsive">
+
+            <div class="mb-3">
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#insertModal">Nuevo
+                    Director</button>
+            </div>
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <th>Código</th>
+                    <th>Director</th>
+                    <th>Película</th>
+                    <th></th>
+                    <th></th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of listaDirectores | paginate: { itemsPerPage: 7, currentPage: p }">
+                        <td>{{ item.iddirector}}</td>
+                        <td>{{ item.nombres}}</td>
+                        <td>{{ item.peliculas}}</td>
+                        <td class="text-center fs-3"><i class="bi bi-pen-fill title" 
+                                data-bs-toggle="modal" 
+                                data-bs-target="#updateModal" 
+                                title="Actualizar" 
+                                (click)="editarDirector(item)"></i>
+                        </td>
+                        <td class="text-center fs-3"><i class="bi bi-person-x-fill botonEliminar" 
+                                data-bs-toggle="modal" 
+                                data-bs-target="#eliminarModal" 
+                                title="Eliminar" (click)="eliminarDirector(item)"></i></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <pagination-controls (pageChange)="p = $event" previousLabel="Anterior"
+                nextLabel="Siguiente"></pagination-controls>
+
+        </div>
+
+    </div>
+</section>
+
+
+<!-- Modal INSERT-->
+<div class="modal fade" id="insertModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Nuevo Director</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <form [formGroup]="directoresInsertForm" (ngSubmit)="directoresInsert(directoresInsertForm.value)">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <input type="text" class="form-control" placeholder="Nombres" formControlName="nombres">
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" class="form-control" placeholder="Peliculas" formControlName="peliculas">
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Agregar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal EDIT-->
+<div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Actualizar Director</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <form [formGroup]="directoresUpdateForm" (ngSubmit)="directoresUpdate(directoresUpdateForm.value)"  *ngIf="directorActualizar">
+                <div class="modal-body">
+
+                    <div class="mb-3 ">
+                        <input type="text" class="form-control" readonly [(ngModel)]="directorActualizar.iddirector" formControlName="iddirector">
+                    </div>
+                    <div class="mb-3 ">
+                        <input type="text" class="form-control" placeholder="Nombres" [(ngModel)]="directorActualizar.nombres" formControlName="nombres">
+                    </div>
+                    <div class="mb-3 ">
+                        <input type="text" class="form-control" placeholder="Peliculas" [(ngModel)]="directorActualizar.peliculas" formControlName="peliculas">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Actualizar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal DELETE-->
+<div class="modal fade" id="eliminarModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Actualizar Director</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <form (ngSubmit)="directoresDelete()"  *ngIf="directorEliminar">
+                <div class="modal-body">
+                    ¡Estas seguro que deseas eliminar este director?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Eliminar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

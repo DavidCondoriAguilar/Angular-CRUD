@@ -1,0 +1,36 @@
+<header id="page-header">
+    <div class="container">
+        <h1>
+            Carrito
+        </h1>
+    </div>
+</header>
+
+<section class="paddi">
+    <div class="container">
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <th>Cod</th>
+                    <th>Nombre</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    <th>Subtotal</th>
+                </thead>
+                <tbody>
+
+                    <tr *ngFor="let item of listaItemCarrito">
+                        <td>{{item.idproducto}}</td>
+                        <td>{{item.nombre}}</td>
+                        <td class="text-center">{{item.precio}}</td>
+                        <td class="text-center">{{item.cantidad}}</td>
+                        <td class="text-center">{{item.precio! * item.cantidad! | number:'.2'}}</td> 
+                    </tr>
+                </tbody>
+            </table>
+            <button class="btn btn-danger" (click)="vaciarCarrito()">Vaciar Carrito</button>
+        </div>
+
+    </div>
+</section>

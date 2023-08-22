@@ -1,1 +1,56 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@200;400&display=swap');
+
+:root {
+    --color1:#5C4B51;
+    --color2:#8CBEB2;
+    --color3:#F2EBBF;
+    --color4:#F3B562;
+    --color5:#F06060;
+    --color5:#2f3dd9;
+    --color-blanco:#FFF;
+    --color-negro:#000;
+    --color-gris-claro:#CCCCCC;
+    --color-gris-oscuro:#333333;
+}
+
+body {
+    font-family: 'Jost', sans-serif;
+}
+
+
+h1 {
+    font-weight: 700;
+    font-size: 40px;
+    letter-spacing: -2px;
+}
+
+h2 {
+    font-weight: 200;
+    font-size: 65px;
+    letter-spacing: -2px;
+    text-transform: lowercase;
+}
+
+h3 {
+    font-weight: 500;
+    font-size: 20px;
+    text-transform: uppercase;
+}
+
+.paddi {
+    padding-top: 90px;
+    padding-bottom: 90px;
+}
+
+#page-header {
+    background-color: var(--color-gris-claro);
+    padding: 15px 0;
+}
+
+@media (min-width:1680px) {
+    .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl{
+        max-width: 1600px;
+    }
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
