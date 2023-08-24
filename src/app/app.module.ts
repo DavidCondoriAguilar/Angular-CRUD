@@ -4,9 +4,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { NgxSearchPipeModule } from 'ngx-search-pipe';
-// import { FilterPipe } from "ngx-filter-pipe";
-// import { OrderModule } from 'ngx-order-pipe';
 import { MatSortModule } from '@angular/material/sort';
 
 
@@ -27,6 +24,7 @@ import { InicioComponent } from './pages/inicio/inicio.component';
 import { ProductosComponent } from './components/productos/productos.component';
 import { CarritoComponent } from './pages/carrito/carrito.component';
 import { DirectoresComponent } from './pages/directores/directores.component';
+
 
 
 @NgModule({
@@ -52,13 +50,10 @@ import { DirectoresComponent } from './pages/directores/directores.component';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    //  OrderModule,
     NgxPaginationModule,
     FormsModule,
-    NgxSearchPipeModule,
     MatSortModule,
-    ReactiveFormsModule
-    // FilterPipe
+    ReactiveFormsModule,
     
   ],
   providers: [],

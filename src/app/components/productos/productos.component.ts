@@ -30,7 +30,7 @@ export class ProductosComponent {
     // console.log(item)
 
 
-    let iCarrito: ItemCarrito = {
+    const iCarrito: ItemCarrito = {
       idproducto: item.idproducto,
       nombre: item.nombre,
       precio: Number(item.precio),

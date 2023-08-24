@@ -16,8 +16,8 @@ export class TiendaComponent {
 
   ngOnInit(): void {
     this.categoriaService.categoriaSelect().subscribe(
-      (res) => {
-        console.log(res);
+      (res) => { 
+        // console.log(res);
         this.listaCategoria = JSON.parse(JSON.stringify(res));
       }
     )

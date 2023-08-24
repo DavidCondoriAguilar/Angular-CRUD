@@ -1,3 +1,4 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
 <header id="page-header">
     <div class="container">
         <h1>
@@ -8,10 +9,10 @@
 
 <section class="paddi">
     <div class="container">
-        <div class="mb-3">
-            <!-- <label class="form-label">Buscar Director</label> -->
+        <!-- <div class="mb-3">
+            <label class="form-label">Buscar Director</label>
             <input type="text" class="form-control" [(ngModel)]="listaDirectores" name="filterPost">
-        </div>
+        </div> -->
 
         <div class="table-responsive">
 
@@ -32,16 +33,21 @@
                         <td>{{ item.iddirector}}</td>
                         <td>{{ item.nombres}}</td>
                         <td>{{ item.peliculas}}</td>
-                        <td class="text-center fs-3"><i class="bi bi-pen-fill title" 
+                        <td class="text-center fs-3">
+                            <i class="bi bi-pen-fill title" 
                                 data-bs-toggle="modal" 
                                 data-bs-target="#updateModal" 
                                 title="Actualizar" 
-                                (click)="editarDirector(item)"></i>
+                                (click)="editarDirector(item)">
+                            </i>
                         </td>
-                        <td class="text-center fs-3"><i class="bi bi-person-x-fill botonEliminar" 
+                        <td class="text-center fs-3">
+                            <i class="bi bi-person-x-fill botonEliminar" 
                                 data-bs-toggle="modal" 
                                 data-bs-target="#eliminarModal" 
-                                title="Eliminar" (click)="eliminarDirector(item)"></i></td>
+                                title="Eliminar" (click)="eliminarDirector(item)">
+                            </i>
+                        </td>
                     </tr>
                 </tbody>
             </table>
