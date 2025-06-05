@@ -1,36 +1,208 @@
-<header id="page-header">
-    <div class="container">
-        <h1>
-            Carrito
-        </h1>
+<!-- Success Message -->
+<div class="success-overlay" *ngIf="showSuccess">
+  <div class="success-message">
+    <i class="bi bi-check-circle-fill display-1 text-success mb-3"></i>
+    <h3 class="mb-3">¡Compra realizada con éxito!</h3>
+    <p class="text-muted">Redirigiendo a la página principal...</p>
+  </div>
+</div>
+
+<header class="bg-primary text-white py-4 mb-4">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center">
+      <h1 class="h3 mb-0">
+        <i class="bi bi-cart3 me-2"></i>Mi Carrito de Compras
+      </h1>
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0">
+          <li class="breadcrumb-item"><a routerLink="/" class="text-white-50">Inicio</a></li>
+          <li class="breadcrumb-item active text-white" aria-current="page">Carrito</li>
+        </ol>
+      </nav>
     </div>
+  </div>
 </header>
 
-<section class="paddi">
-    <div class="container">
+<main class="pb-5">
+  <div class="container">
+    <div class="row g-4">
+      <!-- Cart Items -->
+      <div class="col-lg-8">
+        <div class="card border-0 shadow-sm">
+          <div class="card-header bg-white border-0 py-3">
+            <h5 class="mb-0">
+              <i class="bi bi-cart3 me-2 text-primary"></i>
+              Mi carrito ({{listaItemCarrito.length}} {{listaItemCarrito.length === 1 ? 'producto' : 'productos'}})
+            </h5>
+          </div>
+          <div class="card-body p-0">
+            <!-- Carrito vacío -->
+            <div *ngIf="listaItemCarrito.length === 0" class="empty-cart text-center p-5">
+              <i class="bi bi-cart-x"></i>
+              <h3 class="mt-4 mb-3">Tu carrito está vacío</h3>
+              <p class="mb-4">Aún no has añadido productos a tu carrito de compras</p>
+              <a routerLink="/tienda" class="btn btn-primary btn-lg">
+                <i class="bi bi-arrow-left me-2"></i>Explorar productos
+              </a>
+            </div>
 
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover">
-                <thead>
-                    <th>Cod</th>
-                    <th>Nombre</th>
-                    <th>Precio</th>
-                    <th>Cantidad</th>
-                    <th>Subtotal</th>
+            <!-- Lista de productos -->
+            <div *ngIf="listaItemCarrito.length > 0" class="table-responsive">
+              <table class="table align-middle mb-0">
+                <thead class="bg-light">
+                  <tr>
+                    <th style="width: 70%; min-width: 350px;">Producto</th>
+                    <th class="text-center" style="width: 20%; min-width: 120px;">Subtotal</th>
+                    <th class="text-center" style="width: 10%; min-width: 50px;"></th>
+                  </tr>
                 </thead>
                 <tbody>
-
-                    <tr *ngFor="let item of listaItemCarrito">
-                        <td>{{item.idproducto}}</td>
-                        <td>{{item.nombre}}</td>
-                        <td class="text-center">{{item.precio}}</td>
-                        <td class="text-center">{{item.cantidad}}</td>
-                        <td class="text-center">{{item.precio! * item.cantidad! | number:'.2'}}</td> 
-                    </tr>
+                  <tr *ngFor="let item of listaItemCarrito" class="cart-item align-middle">
+                    <!-- Producto, Cantidad y Precio -->
+                    <td data-label="Producto" class="py-3" style="width: 100%;">
+                      <div class="d-flex align-items-center">
+                        <!-- Imagen del producto -->
+                        <div class="me-3" style="width: 80px; height: 80px; min-width: 80px; background: #f8f9fa; border-radius: 8px; overflow: hidden; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                          <img [src]="getImageUrl(item.imagenchica)" 
+                               [alt]="item.nombre"
+                               class="img-fluid"
+                               style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain;"
+                               (error)="handleImageError($event, item)"
+                               onerror="this.onerror=null; this.src='assets/images/placeholder.png';">
+                        </div>
+                        
+                        <!-- Controles de cantidad -->
+                        <div class="quantity-control me-4" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                          <button class="quantity-btn mb-1" 
+                                  (click)="$event.stopPropagation(); actualizarCantidad(item, 1)"
+                                  title="Aumentar cantidad"
+                                  aria-label="Aumentar cantidad">
+                            <i class="bi bi-plus"></i>
+                          </button>
+                          <span class="quantity-display my-1">{{item.cantidad}}</span>
+                          <button class="quantity-btn mt-1" 
+                                  (click)="$event.stopPropagation(); actualizarCantidad(item, -1)" 
+                                  [disabled]="item.cantidad <= 1"
+                                  title="Reducir cantidad"
+                                  aria-label="Reducir cantidad">
+                            <i class="bi bi-dash"></i>
+                          </button>
+                        </div>
+                        
+                        <!-- Información del producto -->
+                        <div class="d-flex flex-column flex-grow-1">
+                          <div class="d-flex justify-content-between w-100">
+                            <div class="product-info" style="min-width: 0; padding-right: 15px;">
+                              <h6 class="mb-1 fw-semibold" style="display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; line-height: 1.3;">
+                                {{item.nombre}}
+                              </h6>
+                              <p class="text-muted small mb-0">Código: {{item.idproducto}}</p>
+                            </div>
+                            <div class="text-end" style="min-width: 100px;">
+                              <div class="fw-semibold">S/ {{item.precio | number:'1.2-2'}}</div>
+                              <div *ngIf="item.preciorebajado" class="text-decoration-line-through text-muted small">
+                                S/ {{item.preciorebajado | number:'1.2-2'}}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    
+                    <!-- Subtotal -->
+                    <td class="text-center align-middle" data-label="Subtotal">
+                      <span class="fw-bold">S/ {{(item.precio || 0) * (item.cantidad || 0) | number:'1.2-2'}}</span>
+                    </td>
+                    
+                    <!-- Eliminar -->
+                    <td class="text-center align-middle" data-label="Acciones">
+                      <button class="btn btn-sm btn-link text-danger p-0" 
+                              (click)="$event.stopPropagation(); eliminarItem(item)"
+                              title="Eliminar producto"
+                              aria-label="Eliminar producto">
+                        <i class="bi bi-trash fs-5"></i>
+                      </button>
+                    </td>
+                  </tr>
                 </tbody>
-            </table>
-            <button class="btn btn-danger" (click)="vaciarCarrito()">Vaciar Carrito</button>
+              </table>
+            </div>
+          </div>
         </div>
-
+      </div>
+      
+      <!-- Order Summary -->
+      <div class="col-lg-4">
+        <div class="card border-0 shadow-sm h-100">
+          <div class="card-body p-4">
+            <h5 class="card-title mb-4 pb-2 border-bottom">Resumen del pedido</h5>
+            
+            <div class="d-flex justify-content-between mb-2">
+              <span class="text-muted">Subtotal ({{getTotalItems()}} {{getTotalItems() === 1 ? 'producto' : 'productos'}})</span>
+              <span class="fw-medium">S/ {{subtotal | number:'1.2-2'}}</span>
+            </div>
+            
+            <div class="d-flex justify-content-between mb-3">
+              <span class="text-muted">Envío</span>
+              <span *ngIf="envio > 0" class="fw-medium">S/ {{envio | number:'1.2-2'}}</span>
+              <span *ngIf="envio === 0" class="text-success fw-medium">¡Gratis!</span>
+            </div>
+            
+            <div *ngIf="subtotal > 0 && subtotal < 100" class="alert alert-warning py-2 small mb-4">
+              <div class="d-flex align-items-center">
+                <i class="bi bi-truck me-2"></i>
+                <div>
+                  <div class="fw-medium">¡Faltan S/ {{100 - subtotal | number:'1.2-2'}} para envío gratis!</div>
+                  <small class="d-block">Agrega más productos para ahorrar en envío</small>
+                </div>
+              </div>
+            </div>
+            
+            <div class="d-flex justify-content-between align-items-center mb-4 pt-3 border-top">
+              <h5 class="mb-0">Total</h5>
+              <h4 class="mb-0 text-primary">S/ {{total | number:'1.2-2'}}</h4>
+            </div>
+            
+            <button class="btn btn-primary btn-lg w-100 py-3 mb-3 fw-semibold" 
+                    (click)="procederPago()" 
+                    [disabled]="listaItemCarrito.length === 0"
+                    [ngClass]="{'opacity-50': listaItemCarrito.length === 0}">
+              <i class="bi bi-credit-card me-2"></i>Proceder al pago
+            </button>
+            
+            <div class="d-flex justify-content-between pt-3 border-top">
+              <a routerLink="/tienda" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-2"></i> Seguir comprando
+              </a>
+              
+              <button *ngIf="listaItemCarrito.length > 0" 
+                      class="btn btn-outline-danger" 
+                      (click)="vaciarCarrito()"
+                      [disabled]="listaItemCarrito.length === 0">
+                <i class="bi bi-trash me-2"></i> Vaciar carrito
+              </button>
+            </div>
+            
+            <div class="mt-4 pt-3 border-top">
+              <h6 class="text-uppercase small text-muted mb-3">Métodos de pago</h6>
+              <div class="d-flex flex-wrap gap-3 align-items-center">
+                <span class="payment-icon" title="Visa">
+                  <i class="bi bi-credit-card-fill text-primary"></i>
+                  <small class="ms-1">Visa</small>
+                </span>
+                <span class="payment-icon" title="Mastercard">
+                  <i class="bi bi-credit-card-fill text-primary"></i>
+                  <small class="ms-1">Mastercard</small>
+                </span>
+                <span class="payment-icon" title="PayPal">
+                  <i class="bi bi-paypal text-primary"></i>
+                  <small class="ms-1">PayPal</small>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-</section>
+  </div>
+</main>
